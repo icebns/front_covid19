@@ -9,7 +9,8 @@
             </div>
         </header>
         <div class="body">
-            <cube-form :model="model" @submit="submitReport">
+            <!-- @submit="submitReport" -->
+            <cube-form :model="model">
                 <cube-form-group>
                     <!--体温-->
                     <cube-form-item :field="fields[0]"></cube-form-item>
@@ -20,7 +21,9 @@
                     <!--外出-->
                     <cube-form-item :field="fields[3]"></cube-form-item>
                     <!--所在地-->
-                    <cube-form-item :field="fields[4]"></cube-form-item>
+                    <cube-form-item :field="fields[4]">
+                        <div @click="showAddressPicker">选择</div>
+                    </cube-form-item>
                     <!-- <cube-form-item :field="fields[5]"></cube-form-item> -->
                 </cube-form-group>
 
@@ -40,6 +43,14 @@
 
 <script>
 import { cityData } from "@/api/area.js";
+import { provinceList, cityList, areaList } from '@/api/area.js'
+const addressData = provinceList
+addressData.forEach(province => {
+  province.children = cityList[province.value]
+  province.children.forEach(city => {
+    city.children = areaList[city.value]
+  })
+})
 
 const PCA = {
   props: {
@@ -70,15 +81,15 @@ const PCA = {
       onSelect: this.selectHandler
     })
   },
-  methods: {
-    showPicker() {
-      this.picker.show()
-    },
-    selectHandler(selectedVal, selectedIndex, selectedTxt) {
-      this.selected = selectedTxt
-      this.$emit('input', selectedVal)
-    }
-  }
+//   methods: {
+//     showPicker() {
+//       this.picker.show()
+//     },
+//     selectHandler(selectedVal, selectedIndex, selectedTxt) {
+//       this.selected = selectedTxt
+//       this.$emit('input', selectedVal)
+//     }
+//   }
 }
 export default {
 
@@ -228,10 +239,34 @@ export default {
     //提交表单
         submitHandler(e, model) {
             console.log("tijiao"+e);
-        }
+        },
+         showAddressPicker() {
+          this.addressPicker.show()
+        },
+    selectHandle(selectedVal, selectedIndex, selectedText) {
+      this.$createDialog({
+        type: 'warn',
+        content: `Selected Item: <br/> - value: ${selectedVal.join(', ')} <br/> - index: ${selectedIndex.join(', ')} <br/> - text: ${selectedText.join(' ')}`,
+        icon: 'cubeic-alert'
+      }).show()
+    },
+    cancelHandle() {
+      this.$createToast({
+        type: 'correct',
+        txt: 'Picker canceled',
+        time: 1000
+      }).show()
+    }
+        
     },
     mounted(){
         // this.getOrderList();
+         this.addressPicker = this.$createCascadePicker({
+      title: 'City Picker',
+      data: addressData,
+      onSelect: this.selectHandle,
+      onCancel: this.cancelHandle
+    })
     }
     
 }
