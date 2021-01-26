@@ -4,16 +4,16 @@
       <!-- 遍历视频 -->
       <router-link
         :key="item.id"
-        :to="{ path: '/coursedetail', query: { video_id: item.id } }"
+        :to="{ path: '/articledetail', query: { articleId: item.id } }"
         class="course"
         v-for="item in videoList"
       >
         <div class="item_img">
-          <img :src="item.cover_img" />
+          <img :src="item.articleImg" />
         </div>
         <div class="video_info">
-          <div class="c_title">{{ item.title }}</div> 
-          <div class="price">￥ {{ item.price / 100 }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+          <div class="c_title">&nbsp;&nbsp;&nbsp;{{ item.articleTitle }}</div> 
+          <div class="price">{{ item.create_time }}</div>
         </div>
         
       </router-link>
@@ -80,7 +80,6 @@ export default {
 .price {
   margin-top: 8px;
   font-size: 1em;
-  text-align: right;
   width: 100%;
   margin-right: 15px;
 }

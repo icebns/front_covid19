@@ -9,7 +9,8 @@
             </div>
         </header>
         <div class="body">
-            <cube-form :model="model" @submit="submitReport">
+            <!-- @submit="submitReport" -->
+            <cube-form :model="model" @submit="submitHandler">
                 <cube-form-group>
                     <!--体温-->
                     <cube-form-item :field="fields[0]"></cube-form-item>
@@ -20,8 +21,11 @@
                     <!--外出-->
                     <cube-form-item :field="fields[3]"></cube-form-item>
                     <!--所在地-->
-                    <cube-form-item :field="fields[4]"></cube-form-item>
-                    <!-- <cube-form-item :field="fields[5]"></cube-form-item> -->
+                    <cube-form-item :field="fields[4]">
+                        <!-- <div @click="showAddressPicker" id="area">选择</div> -->
+                    </cube-form-item>
+                    <!--用户id-->
+                    <cube-form-item :field="fields[5]" class="display"></cube-form-item>
                 </cube-form-group>
 
                 <!-- <cube-checkbox v-model="checked">
@@ -40,6 +44,16 @@
 
 <script>
 import { cityData } from "@/api/area.js";
+import { provinceList, cityList, areaList } from '@/api/area.js';
+import { addReportApi,getUserInfo } from "@/api/getData.js";
+
+const addressData = provinceList
+addressData.forEach(province => {
+  province.children = cityList[province.value]
+  province.children.forEach(city => {
+    city.children = areaList[city.value]
+  })
+})
 
 const PCA = {
   props: {
@@ -70,15 +84,15 @@ const PCA = {
       onSelect: this.selectHandler
     })
   },
-  methods: {
-    showPicker() {
-      this.picker.show()
-    },
-    selectHandler(selectedVal, selectedIndex, selectedTxt) {
-      this.selected = selectedTxt
-      this.$emit('input', selectedVal)
-    }
-  }
+//   methods: {
+//     showPicker() {
+//       this.picker.show()
+//     },
+//     selectHandler(selectedVal, selectedIndex, selectedTxt) {
+//       this.selected = selectedTxt
+//       this.$emit('input', selectedVal)
+//     }
+//   }
 }
 export default {
 
@@ -89,20 +103,81 @@ export default {
     data(){
         return{
             model: {
-                temperatureValue: "",
-                healthValue:"",
-                contactValue:"",
-                gooutValue:"",
+                id: "18",
+                temperatureValue: "36.2℃",
+                healthValue:"良好",
+                contactValue:"否",
+                gooutValue:"否",
                 homeValue: "",
             },
-            add:"11111",
             fields: [
                 {
-                    type: "input",
+                    type: "select",
                     modelKey: "temperatureValue",
-                    label: "今日体温",
+                    label: "今日体温", 
                     props: {
-                        placeholder: "请输入今日体温"
+                        options: [{
+							value: "35.9℃",
+							text: "35.9℃"
+						},
+						{
+							value: "36.0℃",
+							text: "36.0℃"
+                        },
+                        {
+							value: "36.1℃",
+							text: "36.1℃"
+                        },
+                        {
+							value: "36.2℃",
+							text: "36.2℃"
+						},
+                        {
+							value: "36.3℃",
+							text: "36.3℃"
+						},
+                        {
+							value: "36.4℃",
+							text: "36.4℃"
+						},
+                        {
+							value: "36.5℃",
+							 text: "36.5℃"
+                        }
+                        ,
+                        {
+							value: "36.6℃",
+							 text: "36.6℃"
+						},
+                        {
+							value: "36.7℃",
+							 text: "36.7℃"
+						},
+                        {
+							value: "36.8℃",
+							 text: "36.8℃"
+						},
+                        {
+							value: "36.9℃",
+							 text: "36.9℃"
+						},
+                        {
+							value: "37.0℃",
+							 text: "37.0℃"
+						},
+                        {
+							value: "37.1℃",
+							 text: "37.1℃"
+						},
+                        {
+							value: "37.2℃",
+							 text: "37.2℃"
+						},
+                        {
+							value: "37.3℃及以上",
+							 text: "37.3℃及以上-体温异常，建议就医"
+						}
+                        ]
                     },
                     rules: {
                         required: true
@@ -117,19 +192,19 @@ export default {
                     label: '健康状况',
                     props: {
                         options: [{
-							value: 0,
+							value: "良好",
 							text: "良好"
 						},
 						{
-							value: 1,
+							value: "一般",
 							text: "一般"
                         },
                         {
-							value: 2,
+							value: "较差",
 							text: "较差"
                         },
                         {
-							value: 3,
+							value: "非常差，需要就医",
 							text: "非常差，需要就医"
 						}
                         ]
@@ -144,15 +219,15 @@ export default {
                     label: '是否接触了确诊患者？',
                     props: {
                         options: [{
-							value: 0,
+							value: "否",
 							text: "否"
 						},
 						{
-							value: 1,
+							value: "是",
 							text: "是"
 						},
 						{
-							value: 2,
+							value: "不确定",
 							text: "不确定"
 						}]
                     },
@@ -166,12 +241,12 @@ export default {
                     label: '是否外出？',
                     props: {
                         options: [{
-							value: 0,
-							text: "没有外出"
+							value: "否",
+							text: "否"
 						},
 						{
-							value: 1,
-							text: "有外出"
+							value: "是",
+							text: "是"
                         }
                         ]
                     },
@@ -203,6 +278,15 @@ export default {
                     //     model: 'gooutValue',
                     //     options: ['有外出']
                     // }, 
+                },
+                {
+                    type: 'input',
+                    modelKey: "id", 
+                    label: '用户id', 
+                    disabled: true,
+                    rules: {
+                        required: true
+                    }
                 }
                 ]
             
@@ -225,16 +309,57 @@ export default {
         reportUp:function () {
             this.$router.push('./reportup');
         },
-    //提交表单
+        //提交表单
         submitHandler(e, model) {
-            console.log("tijiao"+e);
-        }
+            console.log(model);
+            e.preventDefault();
+            //调用接口
+            addReportApi(model.id, model.homeValue, model.temperatureValue, model.contactValue, model.gooutValue, model.healthValue).then(
+                res => {
+                    if (res.data.code === 0) {
+                        const toast = this.$createToast({
+                        txt: "打卡成功",
+                        type: "correct",
+                        time: 1500
+                        });
+                        toast.show();
+                    }
+                }
+            );
+            this.$router.push('./report');
+        },
+         showAddressPicker() {
+          this.addressPicker.show();
+        },
+    selectHandle(selectedVal, selectedIndex, selectedText) {
+      this.$createDialog({
+        type: 'warn',
+        content: `Selected Item: <br/> - value: ${selectedVal.join(', ')} <br/> - index: ${selectedIndex.join(', ')} <br/> - text: ${selectedText.join(' ')}`,
+        icon: 'cubeic-alert'
+      }).show();
+    //   area.value = selectedText.join(' ');
+    },
+    cancelHandle() {
+      this.$createToast({
+        type: 'correct',
+        txt: 'Picker canceled',
+        time: 1000
+      }).show()
+    }
+        
     },
     mounted(){
         // this.getOrderList();
+      this.addressPicker = this.$createCascadePicker({
+      title: 'City Picker',
+      data: addressData,
+      onSelect: this.selectHandle,
+      onCancel: this.cancelHandle
+    })
     }
     
 }
+ 
 </script>
 
 <style lang="scss" scoped>
@@ -280,5 +405,8 @@ export default {
     border-radius: 2px;
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
+}
+.display{
+    // display: none;
 }
 </style>

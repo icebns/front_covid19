@@ -9,7 +9,7 @@
         v-for="item in ArticleList"
       >
         <div class="item_img">
-          <img :src="item.cover_img" />
+          <img :src="item.article_img" />
         </div>
         <div class="video_info">
           <div class="c_title"> aaaaaaa{{ item.title }}</div> 

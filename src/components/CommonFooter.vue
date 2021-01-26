@@ -26,7 +26,7 @@ export default {
         {
           label: "我的打卡",
           icon: "cubeic-like",
-          path: "/order"
+          path: "/report"
         },
         {
           label: "个人中心",

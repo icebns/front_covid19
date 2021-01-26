@@ -10,6 +10,7 @@ import Register from '../views/Register/Register.vue'
 import AdminHome from '../views/Administrators/AdminHome.vue'
 import Report from '../views/Report/Report.vue'
 import ReportUp from '../views/ReportUp/ReportUp.vue'
+import Test from '../views/Test/TestPage.vue'
 
 Vue.use(VueRouter)
 
@@ -66,7 +67,11 @@ Vue.use(VueRouter)
       path:"/register",
       name:"Register",
       component:Register
-    },
+    },,{
+      path:"/test",
+      name:"Test",
+      component:Test
+    }
   ]
 
 const router = new VueRouter({

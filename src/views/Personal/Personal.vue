@@ -7,27 +7,35 @@
                 <router-link to="/login" v-if = "getToken === ''"> 
                 <p>立刻登录</p>
                 </router-link>
-                <p v-else>{{info}} </p> 
+                <p v-else>{{info.name}} </p>  
             </div> 
         </div>
-        <p>{{info.userLevel}} </p>
-        <button v-if="getToken !== ''" class="green" @click="signOut">
-            退出登录
-        </button>
+        <div class="smallbox">
+           <p>用户ID：{{info.id}} </p>
+           <p>手机号：{{info.phone}} </p>
+           <p>最新打卡地点：{{info.newArea}} </p>
+           <p>最新检测结果：{{info.newTest}} </p>
+        </div>
         <div v-if="info.userLevel == '1'">
-          <div class="bgblack">
-            系统检测到您是管理员用户
-            <a class="green" :href=adminurl>
+          <div class="smallbox">
+            &nbsp;&nbsp;系统检测到您是管理员用户,您可以：
+            <a class="" :href=adminurl>
                 进入后台
             </a>
           </div>
         </div>
         <div v-else-if="info.userLevel == '0'">
-          B
+            系统检测到您是检测员用户,您可以：
+            <a class="" :href=adminurl>
+                进入后台
+            </a>
         </div>
         <div v-else>
-          else
+           
         </div>
+        <button v-if="getToken !== ''" class="green" @click="signOut">
+            退出登录
+        </button> 
     </div>
     <common-footer></common-footer>
   </div>
@@ -157,5 +165,13 @@ export default {
     line-height: 1.2;
     white-space: pre-wrap;
     overflow: auto;
+}
+.smallbox{
+  margin: 15px;
+}
+.smallbox p{
+  padding: 15px 0;
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
 }
 </style>

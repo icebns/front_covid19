@@ -8,15 +8,15 @@ export const registerApi = (phone, pwd , name)=> axios.post("/api/v1/pri/user/re
     "name":name
 })
 
-// //上报体温接口
-// export const ReportApi = (id, home, temperature, contact, go_out, health)=> axios.post("/api/v1/pri/user/register",{
-//     "id":id,
-//     "home":home,
-//     "temperature":temperature,
-//     "contact":contact,
-//     "go_out":go_out,
-//     "health":health,
-// })
+//上报体温接口
+export const addReportApi = (id, homeValue, temperatureValue, contactValue, gooutValue, healthValue)=> axios.post("/api/v1/pub/report/add_report",{
+    "id":id,
+    "home":homeValue,
+    "temperature":temperatureValue,
+    "contact":contactValue,
+    "go_out":gooutValue,
+    "health":healthValue
+})
 
 
 //登录接口
@@ -31,7 +31,7 @@ export const loginApi = (phone, pwd) => axios.post("/api/v1/pri/user/login",{
 export const getBanner = () => axios.get("/api/v1/pub/video/list_banner")
 
 //新闻列表接口
-export const getVideoList = ()=> axios.get("/api/v1/pub/video/list")
+export const getVideoList = ()=> axios.get("/api/v1/pub/article/list")
 
 
 //视频详情
@@ -57,6 +57,13 @@ export const getOrderList = (token)=>axios.get("/api/v1/pri/order/list",{
     }
 })
 
+//上报记录列表
+export const getReportList = (uid)=>axios.get("/api/v1/pub/report/find_report_by_id?",{
+    params:{
+        "id":uid
+    }
+})
+
 //用户信息接口
 export const getUserInfo = (token)=>axios.get("/api/v1/pri/user/find_by_token",{
     params:{
@@ -79,20 +86,15 @@ export const getUserInfo = (token)=>axios.get("/api/v1/pri/user/find_by_token",{
 // })
 
 // //上报体温接口
-// export const saveOrder = (token, vid)=>axios.post("/api/v1/pri/order/save",{
-//     "video_id":vid
+// export const addReportApi = (token, uid)=>axios.post("/api/v1/pri/report/add_report",{
+//     "id":uid
 // },{
 //     headers:{
 //         "token":token
 //     }
 // })
 
-// //上报记录列表
-// export const getOrderList = (token)=>axios.get("/api/v1/pri/order/list",{
-//     params:{
-//         "token":token
-//     }
-// })
+
 
 // //上报信息接口
 // export const getUserInfo = (token)=>axios.get("/api/v1/pri/article/find_by_token",{

@@ -1,9 +1,6 @@
 <template>
-    <div class="main">
-        <!---->
-        <div>
-
-        </div>
+  <div>
+    <div class="main"> 
         <!--订单列表-->
         <div class="list" v-if="report.length > 0">
             <cube-form-group>
@@ -21,7 +18,7 @@
                         </div> -->
 
                         <div class="textdiv">
-                            <p class="title"> {{item.report_time}} ------<span class="palces">{{item.report_place}}</span></p>
+                            <p class="title">{{item.create_time}} -------<span class="palces">{{item.home}}</span></p>
                             <!-- <p class="price"> </p> -->
                         </div>
 
@@ -33,174 +30,77 @@
         </div>
 
         <div class="no_order" v-else>
-            <p>暂未有购买记录 </p>
+            <p>暂未有打卡记录 </p>
+            <cube-form-group>
+                <cube-button @click="reportUp()" class="no_order_btn">打卡</cube-button>
+            </cube-form-group>
+            
         </div>
 
     <!--底部导航-->
         <common-footer></common-footer>
 
     </div>
-</template> 
-<script>
-/**<div class="bgblack">
-                <div class="formbox">
-                    <cube-form :model="model" @submit="submitHandler">
-                        <cube-form-group>
-                        
-                            <!--所在地-->
-                            <cube-form-item :field="fields[0]"></cube-form-item>
-                            <!--体温-->
-                            <cube-form-item :field="fields[1]"></cube-form-item>
-                            <!--接触-->
-                            <cube-form-item :field="fields[2]"></cube-form-item>
-                            <!--外出-->
-                            <cube-form-item :field="fields[3]"></cube-form-item>
-                            <!--健康-->
-                            <cube-form-item :field="fields[4]"></cube-form-item>
-                        </cube-form-group>
+  </div>
+</template>
 
-                        <!-- <cube-checkbox v-model="checked">
-                            Checkbox
-                        </cube-checkbox>111 -->
-                        
-                        <cube-form-group>
-                            <cube-button type="submit">打卡</cube-button>
-                        </cube-form-group>
-                        <button class="btnclass" onclick="closebox()">取消</button>
-                    </cube-form> 
-                </div>
-            </div> */
-import CommonFooter from '@/components/CommonFooter';
-// import { getOrderList } from "@/api/getData.js";
+<script>
+import CommonFooter from "@/components/CommonFooter"; 
+import defaultHeadImg from "@/assets/logo.png"; 
+import { getReportList,getUserInfo } from "@/api/getData.js"; 
 
 export default {
+  components: {
+    CommonFooter
+  },
 
-    components:{
-        CommonFooter
-    },
+  data() {
+    return {
+      info: {},
+      report:[]
+    };
+  },
 
-    data(){
-        return{
-            model: {
-                homeValue: "",
-                temperatureValue: "",
-                contactValue:"",
-                gooutValue:"",
-                health:""
-            },
-            fields: [
-                // {
-                //     type: "input",
-                //     modelKey: "homeValue",
-                //     label: "今日所在地",
-                //     props: {
-                //         placeholder: "请选择今日所在地"
-                //     },
-                //     rules: {
-                //         required: true
-                //     },
-                //     messages: {
-                //         required: "所在地不能为空"
-                //     }
-                // }, 
-                {
-                    type: "input",
-                    modelKey: "temperatureValue",
-                    label: "今日体温",
-                    props: {
-                        placeholder: "请输入今日体温"
-                    },
-                    rules: {
-                        required: true
-                    },
-                    messages: {
-                        required: "体温不能为空"
-                    }
-                },
-                {
-                    // type: 'switch', 
-                    // modelKey: "contactValue",
-                    // label: '是否接触了确诊患者？',
-                    // required: false,
-                    type: 'radio',
-                    modelKey: "contactValue",
-                    props: {
-                        placeholder:"a",
-                        options:[
-                            {
-                                label:'否',
-                                value:'0'
-                            },
-                            {
-                                label:'是',
-                                value:'1'
-                            }
-                        ],
-                    },
-                    label: '是否接触了确诊患者？',
-                    required: true
-                },
-                {
-                    type: 'switch', 
-                    modelKey: "gooutValue",
-                    label: '是否外出？',
-                    required: false
-                },
-                {
-                    type: 'switch', 
-                    modelKey: "homeValue",
-                    label: '是否变更当前登记地址？'
-                    // required: true
-                },
-                {
-                    type: 'input',
-                    modelKey: "homeValue", 
-                    props: {
-                        placeholder: "请选择今日所在地"
-                    },
-                    on: 'switch',
-                    required: true
-                }
-                ],
-            report:[
-                {
-                    report_time:"2021-01-15",
-                    report_place:"河北省石家庄市长安区"
-                },
-                {
-                    report_time:"2021-01-14",
-                    report_place:"河北省石家庄市长安区"
-                }
-            ]
-        }
-    },
-
-    methods:{
-        //获取订单列表
-    // async getOrderList(){
-    //     try{
-    //         const result =  await getOrderList(this.$store.state.token)
-    //         if(result.data.code == 0){
-    //             this.orders = result.data.data || []
-    //         }
-    //         console.log(result)
-    //     }catch(error){
-    //         console.log(error)
-    //     } 
-    // }
-        reportUp:function () {
-            this.$router.push('./reportup');
-        },
-    //提交表单
-        submitHandler(e, model) {
-            console.log("tijiao"+e);
-        }
-    },
-    mounted(){
-        // this.getOrderList();
+  computed: {
+    getToken() {
+      return this.$store.state.token;
     }
-    
-}
+  },
+
+  methods: {
+    //获取用户信息
+    async getInfo() {
+      try {
+        const result = await getUserInfo(this.getToken);
+        if (result.data.code === 0) {
+          this.info = result.data.data;
+        //   console.log(this.info);
+          try{
+            const result =  await getReportList(this.info.id)
+                if(result.data.code == 0){
+                    console.log(result.data.data);
+                    this.report = result.data.data || [];
+                } 
+            }catch(error){
+                console.log(error)
+            }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }, 
+    reportUp:function () {
+        this.$router.push('./reportup');
+    }
+   
+  },
+
+  mounted() {
+    if (this.getToken) { 
+    this.getInfo();
+    } 
+  }
+};
 </script>
 
 <style lang="scss" scoped>
@@ -227,7 +127,7 @@ button{
     font-size: 14px;
     margin-bottom: 15px;
   }
-  // 订单详情
+  // 详情
   .smallbox {
     //flex左右排列，两端对齐
     display: flex;
@@ -297,5 +197,9 @@ button{
     border-radius: 2px;
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
+}
+.no_order_btn{
+    margin: 5%;
+    width: 90%;
 }
 </style>

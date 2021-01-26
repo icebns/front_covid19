@@ -3,7 +3,7 @@
     <!-- 轮播图组件 -->
     <home-banner :banners="banners"></home-banner>
     <!-- 菜单组件 -->
-    <home-menu></home-menu>
+    <!-- <home-menu></home-menu> -->
     <!-- 视频列表组件 -->
     <video-list :videoList="videoList"></video-list>
     <!-- 文章列表组件 -->
@@ -58,9 +58,7 @@ export default {
      // 获取轮播图数据
     async getBannerData() {
       try {
-        const result = await getBanner();
-        console.log(result);
-        console.log(result.data.code == 0)
+        const result = await getBanner(); 
         if (result.data.code == 0) {
           this.banners = result.data.data;
         }
@@ -73,6 +71,7 @@ export default {
     async getVList(){
         try{
             const result = await getVideoList();
+            console.log(result);
             if (result.data.code == 0) {
                 this.videoList = result.data.data;
             }
