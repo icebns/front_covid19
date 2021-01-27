@@ -4,10 +4,8 @@
     <home-banner :banners="banners"></home-banner>
     <!-- 菜单组件 -->
     <!-- <home-menu></home-menu> -->
-    <!-- 视频列表组件 -->
-    <video-list :videoList="videoList"></video-list>
-    <!-- 文章列表组件 -->
-    <!-- <article-list :articleList="ArticleList"></article-list> -->
+    <!-- 列表组件 -->
+    <video-list :videoList="videoList"></video-list> 
     <!-- 底部导航栏组件 -->
     <common-footer></common-footer>
   </div>
@@ -17,8 +15,7 @@
 <script>
 import HomeBanner from "./Component/Banner";
 import HomeMenu from "./Component/Menu";
-import VideoList from "./Component/VideoList";
-import ArticleList from "./Component/ArticleList";
+import VideoList from "./Component/VideoList"; 
 import CommonFooter from "@/components/CommonFooter";
 import { getBanner, getVideoList } from "@/api/getData.js";
 
@@ -27,29 +24,14 @@ export default {
   components: {
     HomeBanner,
     HomeMenu,
-    VideoList,
-    ArticleList,
+    VideoList, 
     CommonFooter
   },
   //声明数据源
   data() {
     return {
       banners: [],
-      videoList: [],
-      articleList: [
-        {
-          article_title:"!!!!!!!!",
-          article_author:"icebns"
-        },
-        {
-          article_title:"!!!!!!!!",
-          article_author:"icebns"
-        },
-        {
-          article_title:"!!!!!!!!",
-          article_author:"icebns"
-        }
-      ]
+      videoList: [] 
     };
   },
   //定义方法

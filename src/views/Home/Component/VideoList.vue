@@ -4,7 +4,7 @@
       <!-- 遍历视频 -->
       <router-link
         :key="item.id"
-        :to="{ path: '/articledetail', query: { articleId: item.id } }"
+        :to="{ path: '/coursedetail', query: { articleId: item.articleId } }"
         class="course"
         v-for="item in videoList"
       >
@@ -54,14 +54,15 @@ export default {
 //图片
 .item_img {
   font-size: 0; //消除图片元素产生的间隙
-  box-shadow: 0 4px 11px 0 rgba(43, 51, 59, 0.6); //设置图片阴影，rgba前三个参数是颜色编码，最后一个是透明度
-  border-radius: 8px; //设置图片圆角
-  width: 25%;
-  min-width: 25%;
+  box-shadow: 0 4px 11px 0 rgba(55, 57, 59, 0.4); //设置图片阴影，rgba前三个参数是颜色编码，最后一个是透明度
+  // box-shadow: 0 4px 11px 0 rgba(255, 214, 27, 0.3);
+  border-radius: 5px; //设置图片圆角
+  width: 30%;
+  min-width: 30%;
   margin-right: 10px;
   img {
     width: 100%;
-    border-radius: 8px;
+    border-radius: 5px;
   }
 }
 .c_title {
@@ -71,8 +72,8 @@ export default {
   -webkit-line-clamp: 2;
   overflow: hidden;
   word-break: break-all;
-  font-size: 1.3em;
-  margin-top: 10px;
+  font-size: 1.2em;
+  margin-top: 5px;
   color: #2b333b;
   width: 102%;
 }

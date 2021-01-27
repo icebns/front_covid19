@@ -35,9 +35,9 @@ export const getVideoList = ()=> axios.get("/api/v1/pub/article/list")
 
 
 //视频详情
-export const getVideoDetail = (vid)=> axios.get("/api/v1/pub/video/find_detail_by_id?",{
+export const getArticleDetail = (articleId)=> axios.get("/api/v1/pub/article/find_article_by_id?",{
     params: {
-        video_id:vid
+        "articleId":articleId
     }
 })
 
@@ -83,17 +83,7 @@ export const getUserInfo = (token)=>axios.get("/api/v1/pri/user/find_by_token",{
 //     params:{
 //         "token":token
 //     }
-// })
-
-// //上报体温接口
-// export const addReportApi = (token, uid)=>axios.post("/api/v1/pri/report/add_report",{
-//     "id":uid
-// },{
-//     headers:{
-//         "token":token
-//     }
-// })
-
+// }) 
 
 
 // //上报信息接口

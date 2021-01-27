@@ -39,7 +39,7 @@ Vue.use(VueRouter)
       path:"/coursedetail",
       name:"CourseDetail",
       //按需加载
-      component : ()=>import("../views/CourseDetail/CourseDetail.vue")
+      // component : ()=>import("../views/CourseDetail/CourseDetail.vue")
       //component:CourseDetail
     },
     {

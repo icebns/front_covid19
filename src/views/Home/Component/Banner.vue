@@ -6,6 +6,7 @@
         :key="index">
 
         <a :href="item.url">
+        <!-- <a :href="item.url"> -->
           <img :src="item.img"  style="width:100%"/>
         </a>
       
