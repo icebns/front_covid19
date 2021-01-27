@@ -53,7 +53,7 @@ export default {
     async getVList(){
         try{
             const result = await getVideoList();
-            console.log(result);
+            // console.log(result);
             if (result.data.code == 0) {
                 this.videoList = result.data.data;
             }

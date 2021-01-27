@@ -53,9 +53,7 @@ export default {
 }
 //图片
 .item_img {
-  font-size: 0; //消除图片元素产生的间隙
-  box-shadow: 0 4px 11px 0 rgba(55, 57, 59, 0.4); //设置图片阴影，rgba前三个参数是颜色编码，最后一个是透明度
-  // box-shadow: 0 4px 11px 0 rgba(255, 214, 27, 0.3);
+  font-size: 0; //消除图片元素产生的间隙 
   border-radius: 5px; //设置图片圆角
   width: 30%;
   min-width: 30%;
@@ -63,6 +61,7 @@ export default {
   img {
     width: 100%;
     border-radius: 5px;
+    box-shadow: 0 4px 11px 0 rgba(55, 57, 59, 0.4); //设置图片阴影，rgba前三个参数是颜色编码，最后一个是透明度
   }
 }
 .c_title {

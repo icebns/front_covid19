@@ -28,7 +28,7 @@ export default {
   //声明数据源
   data() {
     return { 
-      articleInfo: [] 
+      articleInfo: {} 
     };
   },
   //定义方法

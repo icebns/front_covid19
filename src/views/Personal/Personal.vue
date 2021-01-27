@@ -72,7 +72,7 @@ export default {
         const result = await getUserInfo(this.getToken);
         if (result.data.code === 0) {
           this.info = result.data.data;
-          console.log(this.info)
+          // console.log(this.info)
         }
       } catch (error) {
         console.log(error);

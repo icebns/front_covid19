@@ -78,7 +78,7 @@ export default {
           try{
             const result =  await getReportList(this.info.id)
                 if(result.data.code == 0){
-                    console.log(result.data.data);
+                    // console.log(result.data.data);
                     this.report = result.data.data || [];
                 } 
             }catch(error){
