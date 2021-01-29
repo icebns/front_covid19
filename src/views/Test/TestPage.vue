@@ -20,7 +20,8 @@
             <common-aside></common-aside>
             <!-- <common-tab></common-tab> -->
             <!-- <user-manage></user-manage> -->
-            <page-one></page-one>
+            <!-- <page-one></page-one> -->
+            <article-add></article-add>
             </el-container>
           </div>
         </div>
@@ -62,6 +63,7 @@ import { getUserInfo } from "@/api/getData.js";
 import defaultHeadImg from "@/assets/logo.png"; 
 // import UserManage from './UserManage/UserManage.vue';
 import PageOne from "./Other/PageOne"; 
+import ArticleAdd from "./Other/ArticleAdd"; 
 
 export default {
   components: {
@@ -69,7 +71,8 @@ export default {
     CommonAside,
     CommonHeader,
     CommonTab,
-    PageOne
+    PageOne,
+    ArticleAdd
     // UserManage
   },
     data() {

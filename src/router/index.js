@@ -11,6 +11,14 @@ import AdminHome from '../views/Administrators/AdminHome.vue'
 import Report from '../views/Report/Report.vue'
 import ReportUp from '../views/ReportUp/ReportUp.vue'
 import Test from '../views/Test/TestPage.vue'
+import ArticleAdd from '../views/Test/Other/ArticleAdd.vue'
+import ArticleChange from '../views/Test/Other/ArticleChange.vue'
+import ReportChange from '../views/Test/Other/ReportChange.vue'
+import TestAdd from '../views/Test/Other/TestAdd.vue'
+import TestChange from '../views/Test/Other/TestChange.vue'
+import PatientAdd from '../views/Test/Other/PatientAdd.vue'
+import PatientChange from '../views/Test/Other/PatientChange.vue'
+
 
 Vue.use(VueRouter)
 
@@ -67,10 +75,38 @@ Vue.use(VueRouter)
       path:"/register",
       name:"Register",
       component:Register
-    },,{
+    },{
       path:"/test",
       name:"Test",
       component:Test
+    },{
+      path:"/articleadd",
+      name:"ArticleAdd",
+      component:ArticleAdd
+    },{
+      path:"/articlechange",
+      name:"ArticleChange",
+      component:ArticleChange
+    },{
+      path:"/reportchange",
+      name:"ReportChange",
+      component:ReportChange
+    },{
+      path:"/testadd",
+      name:"TestAdd",
+      component:TestAdd
+    },{
+      path:"/testchange",
+      name:"TestChange",
+      component:TestChange
+    },{
+      path:"/patientadd",
+      name:"PatientAdd",
+      component:PatientAdd
+    },{
+      path:"/patientchange",
+      name:"PatientChange",
+      component:PatientChange
     }
   ]
 

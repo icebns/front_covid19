@@ -18,6 +18,16 @@ export const addReportApi = (id, homeValue, temperatureValue, contactValue, goou
     "health":healthValue
 })
 
+export const addPatientApi = (id, sex, age, source, state, way, hospital)=> axios.post("/api/v1/pub/patient/add_patient",{
+    "id":id,
+    "sex":sex,
+    "age":age,
+    "source":source,
+    "state":state,
+    "way":way,
+    "hospital":hospital
+})
+
 
 //登录接口
 export const loginApi = (phone, pwd) => axios.post("/api/v1/pri/user/login",{
