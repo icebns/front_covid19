@@ -4,8 +4,8 @@
     <el-menu :default-openeds="['1', '2', '3']" :default-active="activeIndex" >
       <el-submenu index="1">
         <template slot="title"><i class="el-icon-message"></i>新闻资讯管理</template>
-          <el-menu-item index="1-1" @click="handleSelect('1-1', '/report')" >发布资讯</el-menu-item>
-          <el-menu-item index="1-2" @click="handleSelect('1-2', '/reportup')">管理资讯</el-menu-item>
+          <el-menu-item index="1-1" @click="handleSelect('1-1', 'articleadd')" >发布资讯</el-menu-item>
+          <el-menu-item index="1-2" @click="handleSelect('1-2', '')">管理资讯</el-menu-item>
       </el-submenu>
       <el-submenu index="2">
         <template slot="title"><i class="el-icon-menu"></i>体温上报管理</template>
@@ -55,8 +55,11 @@
     },
     methods: {
       handleSelect(key, keyPath) {
-        this.activeIndex=key;
+        this.activeIndex = key;
         console.log(key, keyPath);
+        if (keyPath) {
+          this.$router.push({ path: `/test/${keyPath}` });
+        }
       }
     }
   }
