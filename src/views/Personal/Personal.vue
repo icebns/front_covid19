@@ -55,7 +55,8 @@ export default {
     return {
       info: {},
       defaultHeadImg: defaultHeadImg,
-      adminurl: '127.0.0.1：3333'
+      adminurl: '/#/test'
+      // adminurl: '127.0.0.1：3333'
     };
   },
 
