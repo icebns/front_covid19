@@ -1,61 +1,79 @@
 <template>
-  
-  <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-    <el-menu :default-openeds="['1', '2', '3']" :default-active="activeIndex" router mode="horizontal">
-      <el-submenu index="1">
-        <template slot="title"><i class="el-icon-message"></i>新闻资讯管理</template>
-          <el-menu-item index="1-1" @click="handleSelect('1-1', '/report')" >发布资讯</el-menu-item>
-          <el-menu-item index="1-2" @click="handleSelect('1-2', '/reportup')">管理资讯</el-menu-item>
-      </el-submenu>
-      <el-submenu index="2">
-        <template slot="title"><i class="el-icon-menu"></i>体温上报管理</template>
-          <!-- <el-menu-item index="1-1">查询上报信息</el-menu-item> -->
-          <el-menu-item index="2-1">管理上报信息</el-menu-item>
-      </el-submenu>
-      <el-submenu index="3">
-        <template slot="title"><i class="el-icon-setting"></i>防控综合管理</template>
-        <el-menu-item-group>
-          <template slot="title">核酸检测报告管理</template>
-          <el-menu-item index="3-1">添加检测报告</el-menu-item>
-          <el-menu-item index="3-2">查询检测报告</el-menu-item>
-        </el-menu-item-group>
-        <el-menu-item-group>
-          <template slot="title">隔离患者管理</template>
-          <el-menu-item index="4-1">添加隔离患者</el-menu-item>
-          <el-menu-item index="4-2">管理隔离患者</el-menu-item>
-          <el-menu-item index="4-3">添加密切接触者</el-menu-item>
-          <el-menu-item index="4-4">管理密切接触者</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
-    </el-menu> 
-  </el-aside> 
-
+  <el-main>
+      <el-table :data="videoList">
+        <el-table-column prop="article_id" label="文章ID" width="80">
+        </el-table-column>
+        <el-table-column prop="article_title" label="文章标题" width="340">
+        </el-table-column>
+        <el-table-column prop="article_author" label="作者" width="100">
+        </el-table-column>
+        <el-table-column
+          prop="article_time"
+          label="发布时间"
+          sortable
+          width="160" 
+        > 
+        </el-table-column> 
+        <el-table-column v-if="article_level == '0'" prop="zd" label="等级" width="80">
+        </el-table-column>
+        <el-table-column v-else prop="fzd" label="等级" width="80">
+        </el-table-column>
+        <el-table-column prop="article" fixed="right" label="操作">
+          <template slot-scope="scope">
+            <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
+            <el-button type="text" size="small" v-if="article_level == '0'">取消置顶</el-button>
+            <el-button type="text" size="small" v-else>置顶</el-button>
+            <el-button @click="handleClick(scope.row)" type="text" size="small">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-main>
 </template>
-
-<style>
-  .el-header {
-    background-color: #B3C0D1;
-    color: #333;
-    line-height: 60px;
-  }
-  
-  .el-aside {
-    color: #333;
-  }
-</style>
 
 <script>
   export default {
+    // data() {
+    //   const item = {
+    //     article_id: '1',
+    //     article_title: '轨迹公布轨迹公布轨迹公布', 
+    //     article_author: '王小虎',
+    //     article_time: '2021-01-13 14:14:27',
+    //     article_level: '1',
+    //     article: '置顶',
+    //     zd:'置顶',
+    //     fzd:'非置顶'
+    //   };
+    //   return {
+    //     tableData: Array(20).fill(item)
+    //   }
+    // }
     data() {
-      return {
-      activeIndex: '1-1'
+      return { 
+        videoList: [],
+        article_level:0
+        // tableData: fill(videoList)
       };
     },
+    //定义方法
     methods: {
-      handleSelect(key, keyPath) {
-        this.activeIndex=key;
-        console.log(key, keyPath);
+ 
+      //获取视频列表
+      async getVList(){
+          try{
+              const result = await getVideoList();
+              console.log(result);
+              if (result.data.code == 0) {
+                  this.videoList = result.data.data;
+              }
+          }catch(error){
+              console.log(error)
+          }
       }
+    },
+    mounted(){
+        //页面渲染完成调用方法获取数据 
+        this.getVList()
     }
-  }
+  };
 </script>
+<style lang="scss" scoped></style>

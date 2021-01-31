@@ -12,36 +12,31 @@
               </div> 
           </div>
         </div>
-        <!-- v-else-if="info.userLevel == '1'" -->
-        <div>
+        <div v-else-if="info.userLevel == '1'">
           <div class="">
             <!-- 欢迎您，管理员用户！ -->
             <common-header :info="info"></common-header>
             <el-container>
               <common-aside></common-aside>
-              <!-- <common-tab></common-tab> -->
-              <!-- <user-manage></user-manage> -->
-              <!-- <page-one></page-one> -->
-              <!-- <article-add></article-add> -->
                 <keep-alive>
                   <router-view/>
                 </keep-alive>
             </el-container>
           </div>
         </div>
-        <div v-if="info.userLevel == '0'">
+        <div v-else-if="info.userLevel == '0'">
           <div class="">
             <!-- 欢迎您，管理员用户！ -->
             <common-header :info="info"></common-header>
             <el-container>
-              <common-aside></common-aside>
-              <!-- <common-tab></common-tab> -->
-              <!-- <user-manage></user-manage> -->
-              <page-one></page-one>
+            <common-aside></common-aside>
+            <!-- <common-tab></common-tab> -->
+            <!-- <user-manage></user-manage> -->
+            <page-one></page-one>
             </el-container>
           </div>
         </div>
-        <!-- <div v-else>
+        <div v-else>
           <div class="bgblack">
             &nbsp;&nbsp;系统检测到您是普通用户,您可以：
             <a class="" :href=adminurl>
@@ -52,7 +47,7 @@
                 退出登录
             </a> 
           </div>
-        </div>  -->
+        </div> 
     </div>
     <common-form></common-form>
   </div>
@@ -131,9 +126,9 @@ export default {
   },
 
   mounted() {
-    // if (this.getToken) {
-    //   this.getInfo();
-    // }
+    if (this.getToken) {
+      this.getInfo();
+    }
   }
 };
 </script>

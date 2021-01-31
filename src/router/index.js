@@ -89,6 +89,30 @@ Vue.use(VueRouter)
           path:"articleadd",
           name:"ArticleAdd",
           component:ArticleAdd
+        },{
+          path:"articlechange",
+          name:"ArticleChange",
+          component:ArticleChange
+        },{
+          path:"reportchange",
+          name:"ReportChange",
+          component:ReportChange
+        },{
+          path:"testadd",
+          name:"TestAdd",
+          component:TestAdd
+        },{
+          path:"testchange",
+          name:"TestChange",
+          component:TestChange
+        },{
+          path:"patientadd",
+          name:"PatientAdd",
+          component:PatientAdd
+        },{
+          path:"patientchange",
+          name:"PatientChange",
+          component:PatientChange
         },
       ]
     },
@@ -97,31 +121,8 @@ Vue.use(VueRouter)
       name:"ArticleChange",
       component:ArticleChange
     },
-    {
-      path:"/reportchange",
-      name:"ReportChange",
-      component:ReportChange
-    },
-    {
-      path:"/testadd",
-      name:"TestAdd",
-      component:TestAdd
-    },
-    {
-      path:"/testchange",
-      name:"TestChange",
-      component:TestChange
-    },
-    {
-      path:"/patientadd",
-      name:"PatientAdd",
-      component:PatientAdd
-    },
-    {
-      path:"/patientchange",
-      name:"PatientChange",
-      component:PatientChange
-    }
+    
+    
   ]
 
 const router = new VueRouter({

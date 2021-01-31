@@ -18,6 +18,7 @@ export const addReportApi = (id, homeValue, temperatureValue, contactValue, goou
     "health":healthValue
 })
 
+//添加病例
 export const addPatientApi = (id, sex, age, source, state, way, hospital)=> axios.post("/api/v1/pub/patient/add_patient",{
     "id":id,
     "sex":sex,
@@ -28,6 +29,17 @@ export const addPatientApi = (id, sex, age, source, state, way, hospital)=> axio
     "hospital":hospital
 })
 
+//添加新闻/文章
+export const addArticleApi = (article_author, article_title, article_img, article_content)=> axios.post("/api/v1/pub/article/add_article",{
+  	"article_author":article_author,
+	"article_title":article_title,
+	"article_img":article_img,
+	"article_content":article_content
+})
+// //文章列表接口
+// export const getArticleList = ()=> axios.get("/api/v1/pub/article/list")
+//新闻列表接口
+export const getVideoList = ()=> axios.get("/api/v1/pub/article/list")
 
 //登录接口
 export const loginApi = (phone, pwd) => axios.post("/api/v1/pri/user/login",{
@@ -40,8 +52,7 @@ export const loginApi = (phone, pwd) => axios.post("/api/v1/pri/user/login",{
 //轮播图接口
 export const getBanner = () => axios.get("/api/v1/pub/video/list_banner")
 
-//新闻列表接口
-export const getVideoList = ()=> axios.get("/api/v1/pub/article/list")
+
 
 
 //视频详情
