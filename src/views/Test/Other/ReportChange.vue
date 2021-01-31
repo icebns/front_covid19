@@ -1,6 +1,6 @@
 <template>
   <el-main>
-    <el-input placeholder="请输入搜索内容" v-model="input2">
+    <el-input placeholder="请输入搜索内容" v-model="search">
       <el-button slot="append" icon="el-icon-search"></el-button>
     </el-input>
       <el-table :data="tableData">
@@ -61,7 +61,7 @@
 
 <script>
   export default {
-    data() {
+    data() { 
       const item = {
         report_id: '1',
         id: '2', 

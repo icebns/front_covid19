@@ -36,6 +36,25 @@ export const addArticleApi = (article_author, article_title, article_img, articl
 	"article_img":article_img,
 	"article_content":article_content
 })
+
+//修改文章
+export const changeArticleApi = (article_id, article_author, article_title, article_img, article_content, article_level)=> axios.post("/api/v1/pub/article/update_article",{
+    "article_id":article_id,
+	"article_author":article_author,
+	"article_title":article_title,
+	"article_img":article_img,
+	"article_content":article_content,
+	"article_level":article_level
+})
+
+//删除文章
+export const deleteArticleApi = (articleId)=> axios.get("/api/v1/pub/article/delete_article_by_id?",{
+    params: {
+        articleId
+    }
+})
+
+
 // //文章列表接口
 // export const getArticleList = ()=> axios.get("/api/v1/pub/article/list")
 //新闻列表接口
@@ -78,7 +97,10 @@ export const getOrderList = (token)=>axios.get("/api/v1/pri/order/list",{
     }
 })
 
-//上报记录列表
+
+//上报记录列表接口
+export const getAllReportList = ()=> axios.get("/api/v1/pub/report/list")
+//单人上报记录列表
 export const getReportList = (uid)=>axios.get("/api/v1/pub/report/find_report_by_id?",{
     params:{
         "id":uid
