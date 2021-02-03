@@ -43,14 +43,42 @@ export default {
             }
         }catch(error){
             console.log(error)
-        } 
+        }  
+    },
+    
+    onloadd(){ 
+        let c = document.getElementById("test").innerHTML;
+        if(c!=null){
+          c=c.replace(/&lt;/g,"<");//替换里面所有的转义
+          c=c.replace(/&nbsp;/g," ");
+          c=c.replace(/&gt;/g,">");
+          document.getElementById("test").innerHTML = c; 
+        }
+        console.log(c)
+
     }
   },
   mounted(){
       //页面渲染完成调用方法获取数据
-      this.getDetail(this.$route.query.articleId)
+      // this.getDetail(this.$route.query.articleId);
+      // this.onloadd(); 
+      this.getDetail(this.$route.query.articleId).then(val => {
+  　　　　this.onloadd(); 
+  　　});
   }
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+  h1{
+    font-size: 2em !important;
+  }
+  h2{
+    font-size: 1.6em !important;
+  }
+  .ql-indent-1{
+    text-indent:4em !important;
+  }
+
+
+</style>

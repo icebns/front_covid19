@@ -1,69 +1,58 @@
 <template>
   <el-main>
-    <el-input placeholder="请输入搜索内容" v-model="input2">
-      <el-button slot="append" icon="el-icon-search"></el-button>
-    </el-input>
-      <el-table :data="tableData">
-        <el-table-column prop="test_id" label="检测ID" width="80">
-        </el-table-column>
-        <el-table-column prop="name" label="用户姓名" width="100">
-        </el-table-column>
-        <el-table-column
-          prop="test_result"
-          label="检测结果" 
-          width="100"
-          column-key="test_result"
-          :filters="[{text: '阴性', value: '阴性'}, {text: '阳性', value: '阳性'}]"
-          :filter-method="filterHandler"
-        > 
-        </el-table-column> 
-        <el-table-column prop="test_doctor" label="检测员" width="100">
-        </el-table-column> 
-        <el-table-column prop="test_time" label="检测时间" width="160">
-        </el-table-column> 
-        <el-table-column prop="" fixed="right" label="操作">
-          <template slot-scope="scope">
-            <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
-            <el-button @click="handleClick(scope.row)" type="text" size="small">删除</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-    </el-main>
+    <el-form ref="form" :model="form" label-width="80px">
+      <el-form-item label="用户ID">
+        <el-input v-model="form.id" style="width:400px"></el-input>
+      </el-form-item>
+      <el-form-item label="检测结果">
+        <el-select v-model="form.test_result" placeholder="请选择检测结果">
+          <el-option label="阴性" value="阴性"></el-option>
+          <el-option label="阳性" value="阳性"></el-option>
+        </el-select>
+      </el-form-item> 
+      <el-form-item label="电子报告">
+        <el-upload
+          class="upload-demo"
+          drag
+          action="https://jsonplaceholder.typicode.com/posts/"
+          multiple
+          v-model="form.test_img">
+          <i class="el-icon-upload"></i>
+          <div class="el-upload__text">可以拖到此处，或<em>点击上传</em></div>
+          <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且仅限一张</div>
+        </el-upload>
+      </el-form-item>
+      <el-form-item label="检测员">
+        <el-input v-model="form.test_doctor" style="width:217px"></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="onSubmit(form)">创建</el-button>
+        <!-- <el-button>取消</el-button> -->
+      </el-form-item>
+    </el-form>
+  </el-main>
 </template>
 
 <script>
   export default {
     data() {
-      const item = {
-        test_id: '1',
-        name: '张三', 
-        test_result: '阴性',
-        test_doctor: 'icebns',
-        test_time: '2021-01-13 14:14:27',
-        test_img: '否' 
-      };
       return {
-        tableData: Array(20).fill(item)
+        form: {
+          id: '',
+          test_result: '',
+          test_img: '',
+          test_doctor: ''
+        }
       }
     },
     methods: {
-      resetDateFilter() {
-        this.$refs.filterTable.clearFilter('date');
-      },
-      clearFilter() {
-        this.$refs.filterTable.clearFilter();
-      },
-      formatter(row, column) {
-        return row.address;
-      },
-      filterTag(value, row) {
-        return row.tag === value;
-      },
-      filterHandler(value, row, column) {
-        const property = column['property'];
-        return row[property] === value;
+      onSubmit(form) {
+        console.log('submit!');
+        console.log(form);
       }
     }
-  };
+  }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+   
+</style>

@@ -19,7 +19,7 @@
                 </div> 
             </div> 
         </div>
-        <div class="details">
+        <div class="details" id="test">
             {{ articleInfo.articleContent }}
         </div>  
   </div>
@@ -33,11 +33,25 @@
                 type: Object,
                 required: true
             }
+        },
+        methods: {
+            // onload(){ 
+            //     // let a = document.getElementById("test").value;
+            //     // console.log(a);
+            //     // document.getElementById("test").innerHTML = "111";
+            // }
+        }, 
+        mounted(){
+            //页面渲染完成调用方法获取数据 
+            // this.onload(); 
         }
     }
+   
 </script>
 
 <style lang="scss" scoped>
+ 
+
 //包裹层
 .c_wrapper {
     padding: 0 14px;
@@ -103,4 +117,21 @@
 //   margin:0 15px;
     text-indent: 2em;
 }
+</style>
+<style>
+  h1{
+    font-size: 2em !important;
+  }
+  h2{
+    font-size: 1.6em !important;
+  }
+  h3{
+    font-size: 1.4em !important;
+  }
+  h4{
+    font-size: 1.2em !important;
+  }
+  h5{
+    font-size: 1.0em !important;
+  }
 </style>

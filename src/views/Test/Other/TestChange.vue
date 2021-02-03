@@ -93,7 +93,7 @@ export default {
         { prop: "testId", label: "检测报告ID", width: 90 }, 
         { prop: "id", label: "用户ID", width: 80 },
         { prop: "name", label: "姓名", width: 100 },
-        { prop: "testResult", label: "检测结果", width: 80, columnKey:"testResult", sortable:true },
+        { prop: "testResult", label: "检测结果", width: 100, columnKey:"testResult", sortable:true },
         { prop: "testDoctor", label: "检测员", width: 100 },
         { prop: "create_time", label: "检测时间", width: 160} 
       ],
