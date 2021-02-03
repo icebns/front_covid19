@@ -18,6 +18,7 @@ import TestAdd from '../views/Test/Other/TestAdd.vue'
 import TestChange from '../views/Test/Other/TestChange.vue'
 import PatientAdd from '../views/Test/Other/PatientAdd.vue'
 import PatientChange from '../views/Test/Other/PatientChange.vue'
+import PageTwo from '../views/Test/Other/PageTwo.vue'
 
 
 Vue.use(VueRouter)
@@ -117,9 +118,9 @@ Vue.use(VueRouter)
       ]
     },
     {
-      path:"/articlechange",
-      name:"ArticleChange",
-      component:ArticleChange
+      path:"/pagetwo",
+      name:"PageTwo",
+      component:PageTwo
     },
     
     

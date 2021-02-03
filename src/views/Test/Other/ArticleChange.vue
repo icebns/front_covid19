@@ -48,13 +48,13 @@
       <el-input v-model="form.articleAuthor" autocomplete="off"></el-input>
     </el-form-item>
     <el-form-item label="是否置顶">
-      <el-select v-model="form.articleLevel" placeholder="请选择活动区域">
+      <el-select v-model="form.articleLevel" placeholder="请选择">
         <el-option label="置顶" value="0"></el-option>
         <el-option label="普通" value="1"></el-option>
       </el-select>
     </el-form-item>
     <el-form-item label="文章分类">
-      <el-select v-model="form.articleImg" placeholder="请选择活动区域">
+      <el-select v-model="form.articleImg" placeholder="请选择">
         <el-option label="防控通告" value="https://a13.fp.ps.netease.com/file/6010fec46f04942c2f5af007iUlS2tdU03"></el-option>
         <el-option label="轨迹公布" value="https://a13.fp.ps.netease.com/file/6010fcc98b74277e6644f579frWKrezW03"></el-option>
         <el-option label="其他资讯" value="https://a13.fp.ps.netease.com/file/60110802143cfa51b4cdb3e48NRGaZjy03"></el-option>
@@ -150,6 +150,7 @@ export default {
           _this.filterData=_this.filterData.concat(data.filter(item => (item.create_time).indexOf(keyWord) > -1));
           // console.log(_this.filterData)
           let page=1;
+          let pageSize=20;
           let along = _this.filterData.length; 
           let last = along-1; 
           let lastpage = parseInt(along/_this.pageSize)+1;

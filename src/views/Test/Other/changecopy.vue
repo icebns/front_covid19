@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="main">
-      <el-input placeholder="输入关键字搜索" v-model="search">
+      <el-input placeholder="请输入地址搜索" v-model="search">
       <el-button slot="append" icon="el-icon-search" @click="searchData()"></el-button>
     </el-input>
     <el-table :data="showData" style="width: 100%">
@@ -44,29 +44,53 @@
     <div>    
 <el-dialog title="编辑" :visible.sync="dialogFormVisible">
   <el-form :model="form">
-    <el-form-item label="检测报告ID:" :disabled="true"> 
-      <!-- {{form.name}} -->
-      <el-input
-        placeholder=""
-        v-model="form.testId"
-        :disabled="true"
-        style="width:217px">
-      </el-input>
+    <el-form-item label="姓名:" :disabled="true"> 
+      {{form.name}}
       <!-- <el-input v-model="form.name" autocomplete="off" readonly="true"></el-input> -->
     </el-form-item>
-    <el-form-item label="电子报告单:" style="display: flex;">
-      <el-input v-model="form.testImg" autocomplete="off"></el-input>
-      <img src=form.testImg>
+    <el-form-item label="地址:" style="display: flex;">
+      <el-input v-model="form.home" autocomplete="off"></el-input>
+    </el-form-item>
+    <el-form-item label="体温:">
+      <el-select v-model="form.temperature" placeholder="请选择">
+        <el-option label="35.9℃" value="35.9℃"></el-option>
+        <el-option label="36.0℃" value="36.0℃"></el-option>
+        <el-option label="36.1℃" value="36.1℃"></el-option>
+        <el-option label="36.2℃" value="36.2℃"></el-option>
+        <el-option label="36.3℃" value="36.3℃"></el-option>
+        <el-option label="36.4℃" value="36.4℃"></el-option>
+        <el-option label="36.5℃" value="36.5℃"></el-option>
+        <el-option label="36.6℃" value="36.6℃"></el-option>
+        <el-option label="36.7℃" value="36.7℃"></el-option>
+        <el-option label="36.8℃" value="36.8℃"></el-option>
+        <el-option label="36.9℃" value="36.9℃"></el-option>
+        <el-option label="37.0℃" value="37.0℃"></el-option>
+        <el-option label="37.1℃" value="37.1℃"></el-option>
+        <el-option label="37.2℃" value="37.2℃"></el-option>
+        <el-option label="37.3℃及以上" value="37.3℃及以上"></el-option>
+      </el-select>
     </el-form-item> 
-    <el-form-item label="检测结果:">
-      <el-select v-model="form.testResult" placeholder="请选择">
-        <el-option label="阴性" value="阴性"></el-option>
-        <el-option label="阳性" value="阳性"></el-option> 
+    <el-form-item label="与患者接触:">
+      <el-select v-model="form.goOut" placeholder="请选择">
+        <el-option label="是" value="是"></el-option>
+        <el-option label="否" value="否"></el-option> 
       </el-select>
     </el-form-item>
-    <el-form-item label="检测员:" style="display: flex;">
-      <el-input v-model="form.testDoctor" autocomplete="off"></el-input>
-    </el-form-item> 
+    <el-form-item label="外出情况:">
+      <el-select v-model="form.contact" placeholder="请选择">
+        <el-option label="是" value="是"></el-option>
+        <el-option label="否" value="否"></el-option>
+        <el-option label="不确定" value="不确定"></el-option> 
+      </el-select>
+    </el-form-item>
+    <el-form-item label="健康状况:">
+      <el-select v-model="form.health" placeholder="请选择">
+        <el-option label="良好" value="良好"></el-option>
+        <el-option label="一般" value="一般"></el-option>
+        <el-option label="较差" value="较差"></el-option>
+        <el-option label="非常差，需要就医" value="非常差，需要就医"></el-option> 
+      </el-select>
+    </el-form-item>
   </el-form>
   <div slot="footer" class="dialog-footer">
     <el-button @click="dialogFormVisible = false">取 消</el-button>
@@ -78,7 +102,7 @@
   </div>
 </template>
 <script>
-import { getTestList,changeTestApi,deleteTestApi } from "@/api/getData.js";
+import { getAllReportList,changeReportApi,deleteReportApi } from "@/api/getData.js";
 export default {
   inject: ['reload'],
   // name: "HelloWorld",
@@ -90,19 +114,22 @@ export default {
       showData: [], 
       filterData: [],
       tableCol: [
-        { prop: "testId", label: "检测报告ID", width: 90 }, 
-        { prop: "id", label: "用户ID", width: 80 },
-        { prop: "name", label: "姓名", width: 100 },
-        { prop: "testResult", label: "检测结果", width: 80, columnKey:"testResult", sortable:true },
-        { prop: "testDoctor", label: "检测员", width: 100 },
-        { prop: "create_time", label: "检测时间", width: 160} 
+        { prop: "reportId", label: "上报ID", width: 80 },
+        { prop: "name", label: "用户姓名", width: 100 },
+        { prop: "home", label: "地址", width: 200 },
+        { prop: "temperature", label: "体温", width: 80, sortable:true },
+        { prop: "contact", label: "与患者接触", width: 120, columnKey:"contact", filters:"[{text: '是', value: '是'}, {text: '否', value: '否'}]",filterMethod:"filterHandler" },
+        { prop: "goOut", label: "外出", width: 60, columnKey:"go_out", filters:"[{text: '是', value: '是'}, {text: '否', value: '否'}]",filterMethod:"filterHandler" },
+        { prop: "health", label: "健康状况", width: 60, columnKey:"health", filters:"[{text: '良好', value: '良好'}, {text: '一般', value: '一般'}, {text: '较差', value: '较差'}, {text: '非常差，需要就医', value: '非常差，需要就医'}]",filterMethod:"filterHandler" },
+        { prop: "create_time", label: "填报时间", width: 160, sortable:true } 
       ],
       form: {
-        testId: '',
-        id: '',
-        testResult: '',
-        testDoctor: '', 
-        testImg:'' 
+        name: '',
+        home: '',
+        temperature: '',
+        goOut:'',
+        contact:'',
+        health:''
       },
       dialogFormVisible:false,
       currentPage: 1, // 当前页码
@@ -113,15 +140,15 @@ export default {
   methods: {
       submitChange(form){
         console.log(form)
-        changeTestApi(form.id, form.test_id, form.test_img, form.test_result, form.test_doctor).then(
+        changeReportApi(form.reportId,form.home,form.temperature,form.contact,form.goOut,form.health).then(
             res => {
                 if (res.data.code === 0) {
-                  const toast = this.$createToast({
-                  txt: "修改成功",
-                  type: "correct",
-                  time: 1500
-                  });
-                  toast.show();
+                    const toast = this.$createToast({
+                    txt: "修改成功",
+                    type: "correct",
+                    time: 1500
+                    });
+                    toast.show();
                 }
             }
         ); 
@@ -131,13 +158,12 @@ export default {
         try{ 
           let _this = this;
           let keyWord = this.search;
-          const result = await getTestList();
+          const result = await getAllReportList();
           let data = result.data.data; 
-          console.log(data)
           _this.filterData=[];  
-          // _this.filterData=_this.filterData.concat(data.filter(item => (item.name).indexOf(keyWord) > -1)); 
-          // _this.filterData=_this.filterData.concat(data.filter(item => (item.state).indexOf(keyWord) > -1)); 
-          _this.filterData=_this.filterData.concat(data.filter(item => (item.id).indexOf(keyWord) > -1));
+          // _this.filterData=_this.filterData.concat(data.filter(item => (item.health).indexOf(keyWord) > -1)); 
+          // _this.filterData=_this.filterData.concat(data.filter(item => (item.goOut).indexOf(keyWord) > -1)); 
+          _this.filterData=_this.filterData.concat(data.filter(item => (item.home).indexOf(keyWord) > -1));
           // console.log(_this.filterData)
           let page=1;
           let pageSize=20;
@@ -172,7 +198,7 @@ export default {
           type: 'warning',
           center: true
         }).then(() => {
-          deleteTestApi(row.testId).then(
+          deleteReportApi(row.reportId).then(
             res => {
                 if (res.data.code === 0) {
                     this.$message({
@@ -205,7 +231,7 @@ export default {
       //获取列表
       async getRList(){
         try{
-          const result = await getTestList();
+          const result = await getAllReportList();
           let along = result.data.data.length;
           let data = result.data.data; 
           if (result.data.code == 0) {
@@ -218,7 +244,7 @@ export default {
       async getShowData(page){
         try{  
           let _this = this;
-          const result = await getTestList();
+          const result = await getAllReportList();
           let along = result.data.data.length; 
           let last = along-1;
           let data = result.data.data; 

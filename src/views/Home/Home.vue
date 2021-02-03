@@ -45,7 +45,7 @@ export default {
           this.banners = result.data.data;
         }
       }catch(error){
-          console.lo(error)
+          console.log(error)
       }
     },
 
@@ -58,7 +58,7 @@ export default {
                 this.videoList = result.data.data;
             }
         }catch(error){
-            console.lo(error)
+            console.log(error)
         }
     }
   },
