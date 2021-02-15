@@ -25,7 +25,8 @@
                         <!-- <div @click="showAddressPicker" id="area">选择</div> -->
                     </cube-form-item>
                     <!--用户id-->
-                    <cube-form-item :field="fields[5]" class="display"></cube-form-item>
+                    <!-- {{info.id}} -->
+                    <cube-form-item :field="fields[5]" class="none"></cube-form-item>
                 </cube-form-group>
 
                 <!-- <cube-checkbox v-model="checked">
@@ -42,32 +43,196 @@
     </div>
 </template>
 
-<script>
+<script> 
 import { cityData } from "@/api/area.js";
 import { provinceList, cityList, areaList } from '@/api/area.js';
 import { addReportApi,getUserInfo } from "@/api/getData.js";
 
-const addressData = provinceList
-addressData.forEach(province => {
-  province.children = cityList[province.value]
-  province.children.forEach(city => {
-    city.children = areaList[city.value]
-  })
-})
-
-const PCA = {
-  props: {
-    value: {
-      type: Array,
-      default() {
-        return []
-      }
-    }
+export default {
+  components: {
+    
   },
+
   data() {
     return {
-      selected: []
+        selected: [],
+        info: {}, 
+        model: {
+            id: "",
+            temperatureValue: "36.2℃",
+            healthValue:"良好",
+            contactValue:"否",
+            gooutValue:"否",
+            homeValue: "",
+        },
+        fields: [
+            {
+            type: "select",
+            modelKey: "temperatureValue",
+            label: "今日体温", 
+            props: {
+                options: [{
+                    value: "35.9℃",
+                    text: "35.9℃"
+                },
+                {
+                    value: "36.0℃",
+                    text: "36.0℃"
+                },
+                {
+                    value: "36.1℃",
+                    text: "36.1℃"
+                },
+                {
+                    value: "36.2℃",
+                    text: "36.2℃"
+                },
+                {
+                    value: "36.3℃",
+                    text: "36.3℃"
+                },
+                {
+                    value: "36.4℃",
+                    text: "36.4℃"
+                },
+                {
+                    value: "36.5℃",
+                        text: "36.5℃"
+                }
+                ,
+                {
+                    value: "36.6℃",
+                        text: "36.6℃"
+                },
+                {
+                    value: "36.7℃",
+                        text: "36.7℃"
+                },
+                {
+                    value: "36.8℃",
+                        text: "36.8℃"
+                },
+                {
+                    value: "36.9℃",
+                        text: "36.9℃"
+                },
+                {
+                    value: "37.0℃",
+                        text: "37.0℃"
+                },
+                {
+                    value: "37.1℃",
+                        text: "37.1℃"
+                },
+                {
+                    value: "37.2℃",
+                        text: "37.2℃"
+                },
+                {
+                    value: "37.3℃及以上",
+                        text: "37.3℃及以上-体温异常，建议就医"
+                }
+                ]
+            },
+            rules: {
+                required: true
+            },
+            messages: {
+                required: "体温不能为空"
+            }
+        }, 
+        {
+            type: "select",
+            modelKey: "healthValue",
+            label: '健康状况',
+            props: {
+                options: [{
+                    value: "良好",
+                    text: "良好"
+                },
+                {
+                    value: "一般",
+                    text: "一般"
+                },
+                {
+                    value: "较差",
+                    text: "较差"
+                },
+                {
+                    value: "非常差，需要就医",
+                    text: "非常差，需要就医"
+                }
+                ]
+            },
+            rules: {
+                required: true
+            }
+        },
+        {
+            type: "select",
+            modelKey: "contactValue",
+            label: '是否接触了确诊患者？',
+            props: {
+                options: [{
+                    value: "否",
+                    text: "否"
+                },
+                {
+                    value: "是",
+                    text: "是"
+                },
+                {
+                    value: "不确定",
+                    text: "不确定"
+                }]
+            },
+            rules: {
+                required: true
+            }
+        },
+        {
+            type: "select",
+            modelKey: "gooutValue",
+            label: '是否外出？',
+            props: {
+                options: [{
+                    value: "否",
+                    text: "否"
+                },
+                {
+                    value: "是",
+                    text: "是"
+                }
+                ]
+            },
+            rules: {
+                required: true
+            }
+        }, 
+        {
+            type: 'input',
+            modelKey: "homeValue", 
+            label: '当前所在地',
+            props: {
+                placeholder: "请输入当前所在地址"
+            },
+            rules: {
+                required: true
+            } 
+        },
+        {
+            type: 'input',
+            modelKey: "id", 
+            label: '用户id', 
+            disabled: true,
+            rules: {
+                required: true
+            }
+        }
+        ]
+        
     }
+    
   },
   render(createElement) {
     return createElement('cube-button', {
@@ -76,237 +241,27 @@ const PCA = {
       }
     }, this.selected.length ? this.selected.join(' ') : 'placeholder')
   },
-  mounted() {
-    this.picker = this.$createCascadePicker({
-      title: 'PCA Select',
-      data: cityData,
-      selectedIndex: this.value,
-      onSelect: this.selectHandler
-    })
+  computed: {
+    getToken() {
+      return this.$store.state.token;
+    }
   },
-//   methods: {
-//     showPicker() {
-//       this.picker.show()
-//     },
-//     selectHandler(selectedVal, selectedIndex, selectedTxt) {
-//       this.selected = selectedTxt
-//       this.$emit('input', selectedVal)
-//     }
-//   }
-}
-export default {
 
-    components:{
-        
-    },
-
-    data(){
-        return{
-            model: {
-                id: "18",
-                temperatureValue: "36.2℃",
-                healthValue:"良好",
-                contactValue:"否",
-                gooutValue:"否",
-                homeValue: "",
-            },
-            fields: [
-                {
-                    type: "select",
-                    modelKey: "temperatureValue",
-                    label: "今日体温", 
-                    props: {
-                        options: [{
-							value: "35.9℃",
-							text: "35.9℃"
-						},
-						{
-							value: "36.0℃",
-							text: "36.0℃"
-                        },
-                        {
-							value: "36.1℃",
-							text: "36.1℃"
-                        },
-                        {
-							value: "36.2℃",
-							text: "36.2℃"
-						},
-                        {
-							value: "36.3℃",
-							text: "36.3℃"
-						},
-                        {
-							value: "36.4℃",
-							text: "36.4℃"
-						},
-                        {
-							value: "36.5℃",
-							 text: "36.5℃"
-                        }
-                        ,
-                        {
-							value: "36.6℃",
-							 text: "36.6℃"
-						},
-                        {
-							value: "36.7℃",
-							 text: "36.7℃"
-						},
-                        {
-							value: "36.8℃",
-							 text: "36.8℃"
-						},
-                        {
-							value: "36.9℃",
-							 text: "36.9℃"
-						},
-                        {
-							value: "37.0℃",
-							 text: "37.0℃"
-						},
-                        {
-							value: "37.1℃",
-							 text: "37.1℃"
-						},
-                        {
-							value: "37.2℃",
-							 text: "37.2℃"
-						},
-                        {
-							value: "37.3℃及以上",
-							 text: "37.3℃及以上-体温异常，建议就医"
-						}
-                        ]
-                    },
-                    rules: {
-                        required: true
-                    },
-                    messages: {
-                        required: "体温不能为空"
-                    }
-                }, 
-                {
-                    type: "select",
-                    modelKey: "healthValue",
-                    label: '健康状况',
-                    props: {
-                        options: [{
-							value: "良好",
-							text: "良好"
-						},
-						{
-							value: "一般",
-							text: "一般"
-                        },
-                        {
-							value: "较差",
-							text: "较差"
-                        },
-                        {
-							value: "非常差，需要就医",
-							text: "非常差，需要就医"
-						}
-                        ]
-                    },
-                    rules: {
-                        required: true
-                    }
-                },
-                {
-                    type: "select",
-                    modelKey: "contactValue",
-                    label: '是否接触了确诊患者？',
-                    props: {
-                        options: [{
-							value: "否",
-							text: "否"
-						},
-						{
-							value: "是",
-							text: "是"
-						},
-						{
-							value: "不确定",
-							text: "不确定"
-						}]
-                    },
-                    rules: {
-                        required: true
-                    }
-                },
-                {
-                    type: "select",
-                    modelKey: "gooutValue",
-                    label: '是否外出？',
-                    props: {
-                        options: [{
-							value: "否",
-							text: "否"
-						},
-						{
-							value: "是",
-							text: "是"
-                        }
-                        ]
-                    },
-                    rules: {
-                        required: true
-                    }
-                }, 
-                {
-                    type: 'input',
-                    modelKey: "homeValue", 
-                    label: '当前所在地',
-                    props: {
-                        placeholder: "请输入当前所在地址"
-                    },
-                    rules: {
-                        required: true
-                    }
-                    
-                    // component: PCA,
-                    // modelKey: 'pcaValue',
-                    // label: '选择所在地',
-                    // rules: {
-                    //     required: true
-                    // },
-                    // messages: {
-                    //     required: '请选择'
-                    // }
-                    // on: {
-                    //     model: 'gooutValue',
-                    //     options: ['有外出']
-                    // }, 
-                },
-                {
-                    type: 'input',
-                    modelKey: "id", 
-                    label: '用户id', 
-                    disabled: true,
-                    rules: {
-                        required: true
-                    }
-                }
-                ]
-            
+  methods: {
+    //获取用户信息
+    async getInfo() {
+      try {
+        const result = await getUserInfo(this.getToken);
+        if (result.data.code === 0) {
+          this.info = result.data.data;
+          this.model.id=this.info.id;
+          // console.log(this.info)
         }
+      } catch (error) {
+        console.log(error);
+      }
     },
-
-    methods:{
-        //获取订单列表
-    // async getOrderList(){
-    //     try{
-    //         const result =  await getOrderList(this.$store.state.token)
-    //         if(result.data.code == 0){
-    //             this.orders = result.data.data || []
-    //         }
-    //         console.log(result)
-    //     }catch(error){
-    //         console.log(error)
-    //     } 
-    // }
-        reportUp:function () {
+    reportUp:function () {
             this.$router.push('./reportup');
         },
         //提交表单
@@ -346,21 +301,15 @@ export default {
         time: 1000
       }).show()
     }
-        
-    },
-    mounted(){
-        // this.getOrderList();
-      this.addressPicker = this.$createCascadePicker({
-      title: 'City Picker',
-      data: addressData,
-      onSelect: this.selectHandle,
-      onCancel: this.cancelHandle
-    })
+  },
+
+  mounted() { 
+    if (this.getToken) {
+      this.getInfo();
     }
-    
-}
- 
-</script>
+  }
+};
+</script>  
 
 <style lang="scss" scoped>
 .header {
@@ -406,7 +355,7 @@ export default {
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
 }
-.display{
-    // display: none;
+.none{
+    display: none;
 }
 </style>
