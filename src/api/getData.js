@@ -123,6 +123,10 @@ export const deleteTestApi = (testId)=> axios.get("/api/v1/pub/test/delete_test_
         testId
     }
 })
+// //添加图片
+// export const addTestApi = (file)=> axios.post("/upload",{ 
+// })
+
 
 
 /** ______________________Patient___________________________*/

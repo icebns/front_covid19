@@ -19,6 +19,7 @@ import TestChange from '../views/Test/Other/TestChange.vue'
 import PatientAdd from '../views/Test/Other/PatientAdd.vue'
 import PatientChange from '../views/Test/Other/PatientChange.vue'
 import PageTwo from '../views/Test/Other/PageTwo.vue'
+import PicTest from '../views/Home/PicTest.vue'
 
 
 Vue.use(VueRouter)
@@ -28,6 +29,11 @@ Vue.use(VueRouter)
       path:"/",
       name:"Home",
       component:Home
+    },
+    {
+      path:"/pictest",
+      name:"PicTest",
+      component:PicTest
     },
     {
       path:"/adminhome",

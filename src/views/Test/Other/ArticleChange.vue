@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="main">
-      <el-input placeholder="请输入搜索内容" v-model="search">
+      <el-input placeholder="请输入标题或作者搜索" v-model="search">
       <el-button slot="append" icon="el-icon-search" @click="searchData()"></el-button>
     </el-input>
     <el-table :data="showData" style="width: 100%">
@@ -151,6 +151,7 @@ export default {
           // console.log(_this.filterData)
           let page=1;
           let pageSize=20;
+          this.pageSize = 20;
           let along = _this.filterData.length; 
           let last = along-1; 
           let lastpage = parseInt(along/_this.pageSize)+1;

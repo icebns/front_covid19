@@ -36,17 +36,15 @@
             </cube-form-group>
             
         </div>
-
-    <!--底部导航-->
-        <common-footer></common-footer>
-
+ 
     </div>
+    <!--底部导航-->
+    <common-footer></common-footer> 
   </div>
 </template>
 
 <script>
 import CommonFooter from "@/components/CommonFooter"; 
-import defaultHeadImg from "@/assets/logo.png"; 
 import { getReportList,getUserInfo } from "@/api/getData.js"; 
 
 export default {

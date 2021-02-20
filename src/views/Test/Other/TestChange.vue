@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="main">
-      <el-input placeholder="输入关键字搜索" v-model="search">
+      <el-input placeholder="输入姓名、检测结果或检测员关键词搜索" v-model="search">
       <el-button slot="append" icon="el-icon-search" @click="searchData()"></el-button>
     </el-input>
     <el-table :data="showData" style="width: 100%">
@@ -20,7 +20,7 @@
       <template slot-scope="scope">
         <el-button
           size="mini"
-          @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+          @click="handleEdit(scope.$index, scope.row)">查看</el-button>
         <el-button
           size="mini"
           type="danger"
@@ -42,36 +42,8 @@
 
     <!--弹框-->
     <div>    
-<el-dialog title="编辑" :visible.sync="dialogFormVisible">
-  <el-form :model="form">
-    <el-form-item label="检测报告ID:" :disabled="true"> 
-      <!-- {{form.name}} -->
-      <el-input
-        placeholder=""
-        v-model="form.testId"
-        :disabled="true"
-        style="width:217px">
-      </el-input>
-      <!-- <el-input v-model="form.name" autocomplete="off" readonly="true"></el-input> -->
-    </el-form-item>
-    <el-form-item label="电子报告单:" style="display: flex;">
-      <el-input v-model="form.testImg" autocomplete="off"></el-input>
-      <img src=form.testImg>
-    </el-form-item> 
-    <el-form-item label="检测结果:">
-      <el-select v-model="form.testResult" placeholder="请选择">
-        <el-option label="阴性" value="阴性"></el-option>
-        <el-option label="阳性" value="阳性"></el-option> 
-      </el-select>
-    </el-form-item>
-    <el-form-item label="检测员:" style="display: flex;">
-      <el-input v-model="form.testDoctor" autocomplete="off"></el-input>
-    </el-form-item> 
-  </el-form>
-  <div slot="footer" class="dialog-footer">
-    <el-button @click="dialogFormVisible = false">取 消</el-button>
-    <el-button type="primary" @click="submitChange(form)">修 改</el-button>
-  </div>
+<el-dialog title="查看电子报告单" :visible.sync="dialogFormVisible">
+  <img :src="form.testImg" style="width: 100%;">
 </el-dialog>
     </div>
   </div>
@@ -90,12 +62,12 @@ export default {
       showData: [], 
       filterData: [],
       tableCol: [
-        { prop: "testId", label: "检测报告ID", width: 90 }, 
-        { prop: "id", label: "用户ID", width: 80 },
+        { prop: "testId", label: "检测报告ID", width: 120, columnKey:"testId", sortable:true }, 
+        { prop: "id", label: "用户ID", width: 100, columnKey:"id", sortable:true },
         { prop: "name", label: "姓名", width: 100 },
-        { prop: "testResult", label: "检测结果", width: 100, columnKey:"testResult", sortable:true },
+        { prop: "testResult", label: "检测结果", width: 100},
         { prop: "testDoctor", label: "检测员", width: 100 },
-        { prop: "create_time", label: "检测时间", width: 160} 
+        { prop: "create_time", label: "检测时间", width: 160, columnKey:"create_time", sortable:true } 
       ],
       form: {
         testId: '',
@@ -135,16 +107,17 @@ export default {
           let data = result.data.data; 
           console.log(data)
           _this.filterData=[];  
-          // _this.filterData=_this.filterData.concat(data.filter(item => (item.name).indexOf(keyWord) > -1)); 
-          // _this.filterData=_this.filterData.concat(data.filter(item => (item.state).indexOf(keyWord) > -1)); 
-          _this.filterData=_this.filterData.concat(data.filter(item => (item.id).indexOf(keyWord) > -1));
+          _this.filterData=_this.filterData.concat(data.filter(item => (item.testDoctor).indexOf(keyWord) > -1)); 
+          _this.filterData=_this.filterData.concat(data.filter(item => (item.name||item.testResult).indexOf(keyWord) > -1));
+          // _this.filterData=_this.filterData.concat(data.filter(item => (item.name).indexOf(keyWord) > -1));
           // console.log(_this.filterData)
           let page=1;
           let pageSize=20;
+          this.pageSize = 20;
           let along = _this.filterData.length; 
           let last = along-1; 
           let lastpage = parseInt(along/_this.pageSize)+1;
-          let dlong = along%_this.pageSize;  
+          let dlong = along%_this.pageSize;
           _this.showData=[]; 
           let first = (page-1)*_this.pageSize;
           if(page!=lastpage){ 

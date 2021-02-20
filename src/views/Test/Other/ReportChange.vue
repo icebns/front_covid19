@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="main">
-      <el-input placeholder="请输入地址搜索" v-model="search">
+      <el-input placeholder="请输入姓名或地址搜索" v-model="search">
       <el-button slot="append" icon="el-icon-search" @click="searchData()"></el-button>
     </el-input>
     <el-table :data="showData" style="width: 100%">
@@ -120,13 +120,13 @@ export default {
       showData: [], 
       filterData: [],
       tableCol: [
-        { prop: "reportId", label: "上报ID", width: 90 },
+        { prop: "reportId", label: "上报ID", width: 90 ,columnKey:"reportId", sortable:true },
         { prop: "name", label: "用户姓名", width: 100 },
         { prop: "home", label: "地址", width: 200 },
         { prop: "temperature", label: "体温", width: 80, columnKey:"temperature", sortable:true },
         { prop: "contact", label: "与患者接触", width: 120, columnKey:"contact", sortable:true},
         { prop: "goOut", label: "外出", width: 80, columnKey:"go_out", sortable:true},
-        { prop: "health", label: "健康状况", width: 90, columnKey:"health", filters:"[{text: '良好', value: '良好'}, {text: '一般', value: '一般'}, {text: '较差', value: '较差'}, {text: '非常差，需要就医', value: '非常差，需要就医'}]",filterMethod:"filterHandler" },
+        { prop: "health", label: "健康状况", width: 90},
         { prop: "create_time", label: "填报时间", width: 160, columnKey:"create_time", sortable:true } 
       ],
       form: {
@@ -170,9 +170,11 @@ export default {
           // _this.filterData=_this.filterData.concat(data.filter(item => (item.health).indexOf(keyWord) > -1)); 
           // _this.filterData=_this.filterData.concat(data.filter(item => (item.goOut).indexOf(keyWord) > -1)); 
           _this.filterData=_this.filterData.concat(data.filter(item => (item.home).indexOf(keyWord) > -1));
+          _this.filterData=_this.filterData.concat(data.filter(item => (item.name||item.home).indexOf(keyWord) > -1));
           // console.log(_this.filterData)
           let page=1;
           let pageSize=20;
+          this.pageSize = 20;
           let along = _this.filterData.length; 
           let last = along-1; 
           let lastpage = parseInt(along/_this.pageSize)+1;

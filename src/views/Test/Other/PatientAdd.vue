@@ -61,6 +61,7 @@
 <script>
 import { getNameList,addPatientApi,getPatientList } from "@/api/getData.js";
   export default {
+    inject: ['reload'],
     data() {
       return {
         NameData:[],
@@ -79,35 +80,40 @@ import { getNameList,addPatientApi,getPatientList } from "@/api/getData.js";
     },
     methods: {
       onSubmit(form) {
-        let _this = this; 
-        let along = _this.PatientList.length; 
-        let putok = 0;
-        // console.log(_this.NameData[1].id)
-        for(let i = 0;i<along;i++){
-          if(form.id==_this.PatientList[i].id){
-            putok=1; 
-            const toast = this.$createToast({
-              txt: "隔离患者已存在，请检查",
-              type: "warn",
-              time: 1500
-            });
-            toast.show(); 
-          }
-        }
-        if(putok=0){ 
-          addPatientApi(form.id, form.sex,form.age,form.source,form.state,form.way,form.hospital).then(
-              res => {
-                  if (res.data.code === 0) {
-                      const toast = this.$createToast({
-                      txt: "创建成功",
-                      type: "correct",
-                      time: 1500
-                      });
-                      toast.show();
-                  }
-              }
-          ); 
-        }
+        console.log(form) 
+        addPatientApi(form.id, form.sex,form.age,form.source,form.state,form.way,form.hospital).then(
+            res => {
+                if (res.data.code === 0) {
+                    const toast = this.$createToast({
+                    txt: "创建成功",
+                    type: "correct",
+                    time: 1500
+                    });
+                    toast.show();
+                }
+            }
+        ); 
+        form.id = "";
+        form.sex = "";
+        form.age = "";
+        form.source = ""; 
+        form.state = ""; 
+        form.way = ""; 
+        form.hospital = "";
+        this.searchData=""; 
+        this.reload()
+          // addPatientApi(form.id, form.sex,form.age,form.source,form.state,form.way,form.hospital).then(
+          //     res => {
+          //         if (res.data.code === 0) {
+          //             const toast = this.$createToast({
+          //             txt: "创建成功",
+          //             type: "correct",
+          //             time: 1500
+          //             });
+          //             toast.show();
+          //         }
+          //     }
+          // );   
       },
         //获取姓名列表
       async getNList(){
@@ -141,6 +147,19 @@ import { getNameList,addPatientApi,getPatientList } from "@/api/getData.js";
             if(this.NameData[i].id==uid){
               // console.log(this.NameData[i].name);
               this.searchData=this.NameData[i].name;
+            }
+          }  
+          let plong = _this.PatientList.length;  
+          // console.log(_this.NameData[1].id)
+          for(let i = 0;i<plong;i++){
+            // console.log(111)
+            if(uid==_this.PatientList[i].id){ 
+              const toast = this.$createToast({
+                txt: "隔离患者已存在，请检查",
+                type: "warn",
+                time: 1500
+              });
+              toast.show(); 
             }
           } 
         }catch(error){

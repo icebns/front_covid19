@@ -59,6 +59,7 @@ import "quill/dist/quill.bubble.css";
 import { addArticleApi } from "@/api/getData.js";
 
 export default {
+  inject: ['reload'],
   props: {
     /*编辑器的内容*/
     value: {
@@ -179,6 +180,12 @@ export default {
                 }
             }
         ); 
+        article_title = "";
+        article_content = "";
+        article_img = "";
+        article_author = ""; 
+        test_doctor = ""; 
+        this.reload()
     }
   }
 };

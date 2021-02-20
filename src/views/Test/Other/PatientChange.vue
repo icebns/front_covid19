@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="main">
-      <el-input placeholder="输入关键字搜索" v-model="search">
+      <el-input placeholder="输入隔离点或患者名搜索" v-model="search">
       <el-button slot="append" icon="el-icon-search" @click="searchData()"></el-button>
     </el-input>
     <el-table :data="showData" style="width: 100%">
@@ -112,9 +112,9 @@ export default {
       showData: [], 
       filterData: [],
       tableCol: [
-        { prop: "patientId", label: "隔离患者ID", width: 90 },
+        { prop: "patientId", label: "隔离患者ID", width: 120, columnKey:"patientId", sortable:true },
         { prop: "name", label: "姓名", width: 100 },
-        { prop: "sex", label: "性别", width: 200 },
+        { prop: "sex", label: "性别", width: 50 },
         { prop: "age", label: "年龄", width: 80, columnKey:"age", sortable:true },
         { prop: "source", label: "感染源", width: 120},
         { prop: "state", label: "健康状态", width: 80},
@@ -164,9 +164,11 @@ export default {
           // _this.filterData=_this.filterData.concat(data.filter(item => (item.name).indexOf(keyWord) > -1)); 
           // _this.filterData=_this.filterData.concat(data.filter(item => (item.state).indexOf(keyWord) > -1)); 
           _this.filterData=_this.filterData.concat(data.filter(item => (item.hospital||item.name).indexOf(keyWord) > -1));
+          _this.filterData=_this.filterData.concat(data.filter(item => (item.name).indexOf(keyWord) > -1));
           // console.log(_this.filterData)
           let page=1;
           let pageSize=20;
+          this.pageSize = 20;
           let along = _this.filterData.length; 
           let last = along-1; 
           let lastpage = parseInt(along/_this.pageSize)+1;
